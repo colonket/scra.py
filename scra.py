@@ -19,8 +19,13 @@ os.system("rm -rf ./dump-scrapy")
 os.system("mkdir ./dump-scrapy")
 
 #Directories
+user_home = os.path.expanduser("~")
 source_dir = sys.argv[1]
+if source_dir == user_home:
+    source_dir += "/"
+
 dest_dir = "./dump-scrapy"
+
 filetypes = []
 typeprinted = "[scra.py>] Scraping for"
 for spectyp in sys.argv[2:]:
