@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import glob, os, shutil, sys
 
 #scra.py - A File Scraping Python Script by colonEndBracket
