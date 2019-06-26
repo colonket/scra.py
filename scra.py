@@ -21,19 +21,17 @@ os.system("mkdir ./dump-scrapy")
 #Directories
 source_dir = sys.argv[1]
 dest_dir = "./dump-scrapy"
-
 filetypes = []
-showtypes = "[scra.py>] Scraping for"
+typeprinted = "[scra.py>] Scraping for"
 for spectyp in sys.argv[2:]:
-    filetypes += spectyp
-    showtypes += " "+spectyp
-showtypes += " files..."
-
-print(showtypes)
+    filetypes.append(spectyp)
+    typeprinted += " "+spectyp
+typeprinted += " files in "+source_dir
+print(typeprinted)
 
 f_found = 0
 for i in filetypes:
-    itech="**/*."+i
+    itech=source_dir+"**/*."+i
     files = glob.glob(itech, recursive=True)
     for file in files:
         if os.path.isfile(file):
@@ -43,3 +41,5 @@ for i in filetypes:
 
 if f_found == 0:
     print("[scra.py>] No files were scraped!")
+else:
+    print("[scra.py>] %s files were scraped and placed in dump-scrapy/!" % f_found)
