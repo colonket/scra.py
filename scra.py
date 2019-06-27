@@ -17,8 +17,14 @@ elif len(sys.argv) == 2:
     exit()
 
 #Prepare dump-scrapy folder
-os.system("rm -rf ./dump-scrapy")
-os.system("mkdir ./dump-scrapy")
+if os.path.exists(dest_dir):
+    for i in glob.glob(os.path.join(dest_dir, '*')):
+        if os.path.isdir(i):
+            shutil.rmtree(i)
+        else:
+            os.remove(i)
+else:
+    os.mkdir(dest_dir)
 
 #Define directories
 user_home = os.path.expanduser("~")
