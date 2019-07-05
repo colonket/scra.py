@@ -15,6 +15,19 @@ elif len(sys.argv) == 2:
     print("[Usage>] ./scra.py <target_directory> <file_types>")
     print("[e.g. >] ./scra.py .. png jpg mp4")
     exit()
+'''
+#Set up logging all print statements to a log file
+old_stdout = sys.stdout
+log_file = open("./dump-scrapy/scrapy.log","w")
+sys.stdout = log_file
+'''
+
+#Define directories
+user_home = os.path.expanduser("~")
+source_dir = sys.argv[1]
+if source_dir == user_home:
+    source_dir += "/"
+dest_dir = "./dump-scrapy"
 
 #Prepare dump-scrapy folder
 if os.path.exists(dest_dir):
@@ -26,19 +39,29 @@ if os.path.exists(dest_dir):
 else:
     os.mkdir(dest_dir)
 
-#Define directories
-user_home = os.path.expanduser("~")
-source_dir = sys.argv[1]
-if source_dir == user_home:
-    source_dir += "/"
-dest_dir = "./dump-scrapy"
-
 #Process the file types
 filetypes = []
 typeprinted = "[scra.py>] Scraping for"
-for spectyp in sys.argv[2:]:
-    filetypes.append(spectyp)
-    typeprinted += " "+spectyp
+typecounter = 0
+
+for spectyp in sys.argv[2:]: #How many types were specified?
+    typecounter += 1
+if typecounter == 2:
+    for spectyp in sys.argv[2:]:
+        filetypes.append(spectyp)
+        typeprinted += " "+spectyp
+        if typecounter == 2:
+            typeprinted += " and"
+            typecounter -= 1
+else:
+    for spectyp in sys.argv[2:]: #Tell user which types are being scraped for in which directory
+        filetypes.append(spectyp)
+        typeprinted += " "+spectyp
+        if typecounter >= 3:
+            typeprinted += ","
+        elif typecounter == 2:
+            typeprinted += ", and"
+        typecounter -= 1
 typeprinted += " files in "+source_dir
 print(typeprinted)
 
@@ -58,3 +81,10 @@ if f_found == 0:
     print("[scra.py>] No files were scraped!")
 else:
     print("[scra.py>] %s files were scraped and placed in dump-scrapy/!" % f_found)
+
+'''
+#Finish logging all print statements to log file
+sys.stdout = old_stdout
+
+log_file.close()
+'''
